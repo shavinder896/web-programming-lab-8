@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Functions Lab</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        .task { border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 5px; background: #f9f9f9; }
+        h3 { margin-top: 0; color: #333; }
+        input[type="text"] { padding: 5px; width: 300px; }
+        button { padding: 5px 10px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 3px; }
+        button:hover { background: #0056b3; }
+        .output { margin-top: 10px; font-weight: bold; color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Javascript String Functions</h1>
+    <div class="task">
+        <h3>I. Username Validation</h3>
+        <p>Min 6 chars, no spaces.</p>
+        <input type="text" id="username" placeholder="Enter Username">
+        <button onclick="checkUsername()">Check</button>
+        <div id="out1" class="output"></div>
+    </div>
+    <div class="task">
+        <h3>II. Email Validation</h3>
+        <p>Must end with .edu</p>
+        <input type="text" id="email" placeholder="Enter Email (e.g., student@university.edu)">
+        <button onclick="checkEmail()">Check</button>
+        <div id="out2" class="output"></div>
+    </div>
+    <div class="task">
+        <h3>III. Password Validation</h3>
+        <p>Min 8 chars, at least 1 uppercase.</p>
+        <input type="text" id="password" placeholder="Enter Password">
+        <button onclick="checkPassword()">Check</button>
+        <div id="out3" class="output"></div>
+    </div>
+    <div class="task">
+        <h3>IV. Greeting Message</h3>
+        <p>Converts input to uppercase greeting.</p>
+        <input type="text" id="greetName" placeholder="Enter your name">
+        <button onclick="greetUser()">Greet</button>
+        <div id="out4" class="output"></div>
+    </div>
+    <div class="task">
+        <h3>V. Search for a Word</h3>
+        <input type="text" id="searchSentence" placeholder="Enter Sentence">
+        <input type="text" id="searchWord" placeholder="Word to find" style="width: 100px;">
+        <button onclick="searchForWord()">Search</button>
+        <div id="out5" class="output"></div>
+    </div>
+    <div class="task">
+        <h3>VI. Word Count</h3>
+        <input type="text" id="wordCountInput" placeholder="Enter a sentence">
+        <button onclick="countWords()">Count Words</button>
+        <div id="out6" class="output"></div>
+    </div>
+    <div class="task">
+        <h3>VII. Character Frequency</h3>
+        <input type="text" id="charStr" placeholder="Enter String">
+        <input type="text" id="charFind" placeholder="Char" style="width: 50px;" maxlength="1">
+        <button onclick="countChar()">Count</button>
+        <div id="out7" class="output"></div>
+    </div>
+    <div class="task">
+        <h3>VIII. First/Last Char Extraction</h3>
+        <p>Example: Type "Marie Curie"</p>
+        <input type="text" id="marieInput" value="Marie Curie">
+        <button onclick="processMarie()">Execute</button>
+        <div id="out8" class="output"></div>
+    </div>
+<script>
+    function checkUsername() {
+        const val = document.getElementById("username").value;
+        const out = document.getElementById("out1");
+        if (val.length >= 6 && !val.includes(" ")) {
+            out.innerHTML = "Valid Username!";
+            out.className = "output";
+        } else {
+            out.innerHTML = "Invalid: Must be 6+ chars and no spaces.";
+            out.className = "output error";
+        }
+    }
+    function checkEmail() {
+        const val = document.getElementById("email").value;
+        const out = document.getElementById("out2");
+        if (val.endsWith(".edu")) {
+            out.innerHTML = "Valid .edu Email!";
+            out.className = "output";
+        } else {
+            out.innerHTML = "Invalid: Must end in .edu";
+            out.className = "output error";
+        }
+    }
+    function checkPassword() {
+        const val = document.getElementById("password").value;
+        const out = document.getElementById("out3");
+        if (val.length >= 8 && /[A-Z]/.test(val)) {
+            out.innerHTML = "Valid Password!";
+            out.className = "output";
+        } else {
+            out.innerHTML = "Invalid: Need 8+ chars and 1 Uppercase letter.";
+            out.className = "output error";
+        }
+    }
+    function greetUser() {
+        const val = document.getElementById("greetName").value;
+        document.getElementById("out4").innerHTML = "HELLO, " + val.toUpperCase();
+    }
+    function searchForWord() {
+        const sentence = document.getElementById("searchSentence").value;
+        const word = document.getElementById("searchWord").value;
+        if (sentence.includes(word)) {
+            document.getElementById("out5").innerHTML = `Found "${word}" in the sentence!`;
+        } else {
+            document.getElementById("out5").innerHTML = `"${word}" not found.`;
+        }
+    }
+    function countWords() {
+        const val = document.getElementById("wordCountInput").value.trim();
+        if (val === "") {
+            document.getElementById("out6").innerHTML = "0 words";
+            return;
+        }
+        const count = val.split(/\s+/).length;
+        document.getElementById("out6").innerHTML = count + " words";
+    }
+    function countChar() {
+        const str = document.getElementById("charStr").value;
+        const char = document.getElementById("charFind").value;
+        if(!char) return;
+        let count = 0;
+        for (let i = 0; i < str.length; i++) {
+            if (str[i] === char) count++;
+        }
+        document.getElementById("out7").innerHTML = `Character '${char}' appears ${count} times.`;
+    }
+    function processMarie() {
+        const val = document.getElementById("marieInput").value; // e.g., "Marie Curie"
+        const words = val.trim().split(/\s+/);
+        let firstChars = "";
+        let firstLastChars = "";
+        words.forEach(word => {
+            if (word.length > 0) {
+                firstChars += word[0] + " "; 
+                firstLastChars += word[0] + word[word.length - 1] + " "; 
+            }
+        });
+        document.getElementById("out8").innerHTML = 
+            `First chars: <b>${firstChars}</b><br>First & Last chars: <b>${firstLastChars}</b>`;
+    }
+</script>
+</body>
+</html>
